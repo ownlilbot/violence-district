@@ -42,6 +42,9 @@ local function tween(object, duration, properties, style, direction)
     return t
 end
 
+-- WAIT UNTIL WELCOME IS FULLY FINISHED
+local WelcomeFinished = Instance.new("BindableEvent")
+
 local Welcome = Instance.new("Frame")
 Welcome.Name = "OfficialWelcome"
 Welcome.Size = UDim2.new(0, 365, 0, 245)
@@ -605,7 +608,13 @@ task.spawn(function()
     if Welcome and Welcome.Parent then
         Welcome:Destroy()
     end
+
+    WelcomeFinished:Fire()
 end)
+
+-- WAIT UNTIL WELCOME IS COMPLETELY DESTROYED
+WelcomeFinished.Event:Wait()
+WelcomeFinished:Destroy()
 
 local Frame = Instance.new("Frame")
 Frame.Name = "SpectatorFrame"
