@@ -98,7 +98,7 @@ local Brand = Instance.new("TextLabel")
 Brand.Size = UDim2.new(1, -30, 0, 22)
 Brand.Position = UDim2.new(0, 15, 0, 18)
 Brand.BackgroundTransparency = 1
-Brand.Text = "✦  XLILNYX OFFICIAL  ✦"
+Brand.Text = "XLILNYX OFFICIAL"
 Brand.TextColor3 = Color3.fromRGB(135, 170, 235)
 Brand.TextTransparency = 1
 Brand.TextSize = 13
@@ -150,22 +150,114 @@ InfoContainer.BackgroundTransparency = 1
 InfoContainer.ZIndex = 1005
 InfoContainer.Parent = Welcome
 
+-- FIXED COLUMN INFO ROW
 local function createInfoRow(y, label, value)
-    local row = Instance.new("TextLabel")
 
+    local row = Instance.new("Frame")
+
+    row.Name = label .. "Row"
     row.Size = UDim2.new(1, 0, 0, 21)
     row.Position = UDim2.new(0, 0, 0, y)
     row.BackgroundTransparency = 1
-    row.Text = label .. "    :    " .. value
-    row.TextColor3 = Color3.fromRGB(190, 192, 202)
-    row.TextTransparency = 1
-    row.TextSize = 11
-    row.Font = Enum.Font.GothamMedium
-    row.TextXAlignment = Enum.TextXAlignment.Left
+    row.BorderSizePixel = 0
     row.ZIndex = 1006
     row.Parent = InfoContainer
 
+    -- LABEL
+    local Label = Instance.new("TextLabel")
+
+    Label.Name = "Label"
+    Label.Size = UDim2.new(0, 72, 1, 0)
+    Label.Position = UDim2.new(0, 0, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.Text = label
+    Label.TextColor3 = Color3.fromRGB(190, 192, 202)
+    Label.TextTransparency = 1
+    Label.TextSize = 11
+    Label.Font = Enum.Font.GothamMedium
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.TextYAlignment = Enum.TextYAlignment.Center
+    Label.ZIndex = 1007
+    Label.Parent = row
+
+    -- COLON
+    local Colon = Instance.new("TextLabel")
+
+    Colon.Name = "Colon"
+    Colon.Size = UDim2.new(0, 15, 1, 0)
+    Colon.Position = UDim2.new(0, 72, 0, 0)
+    Colon.BackgroundTransparency = 1
+    Colon.Text = ":"
+    Colon.TextColor3 = Color3.fromRGB(125, 128, 140)
+    Colon.TextTransparency = 1
+    Colon.TextSize = 11
+    Colon.Font = Enum.Font.GothamMedium
+    Colon.TextXAlignment = Enum.TextXAlignment.Center
+    Colon.TextYAlignment = Enum.TextYAlignment.Center
+    Colon.ZIndex = 1007
+    Colon.Parent = row
+
+    -- VALUE
+    local Value = Instance.new("TextLabel")
+
+    Value.Name = "Value"
+    Value.Size = UDim2.new(1, -92, 1, 0)
+    Value.Position = UDim2.new(0, 92, 0, 0)
+    Value.BackgroundTransparency = 1
+    Value.Text = value
+    Value.TextColor3 = Color3.fromRGB(190, 192, 202)
+    Value.TextTransparency = 1
+    Value.TextSize = 11
+    Value.Font = Enum.Font.GothamMedium
+    Value.TextXAlignment = Enum.TextXAlignment.Left
+    Value.TextYAlignment = Enum.TextYAlignment.Center
+    Value.TextTruncate = Enum.TextTruncate.AtEnd
+    Value.ZIndex = 1007
+    Value.Parent = row
+
     return row
+end
+
+local function showInfoRow(row, duration)
+
+    if not row or not row.Parent then
+        return
+    end
+
+    for _, child in ipairs(row:GetChildren()) do
+
+        if child:IsA("TextLabel") then
+
+            tween(
+                child,
+                duration,
+                {
+                    TextTransparency = 0
+                }
+            )
+        end
+    end
+end
+
+local function hideInfoRow(row, duration)
+
+    if not row then
+        return
+    end
+
+    for _, child in ipairs(row:GetChildren()) do
+
+        if child:IsA("TextLabel") then
+
+            tween(
+                child,
+                duration,
+                {
+                    TextTransparency = 1
+                }
+            )
+        end
+    end
 end
 
 local OwnerRow = createInfoRow(
@@ -240,7 +332,7 @@ local Copyright = Instance.new("TextLabel")
 Copyright.Size = UDim2.new(1, -42, 0, 15)
 Copyright.Position = UDim2.new(0, 21, 0, 216)
 Copyright.BackgroundTransparency = 1
-Copyright.Text = "© XLILNYX OFFICIAL"
+Copyright.Text = "THANKS TO ALL PARTNER"
 Copyright.TextColor3 = Color3.fromRGB(75, 78, 88)
 Copyright.TextTransparency = 1
 Copyright.TextSize = 8
@@ -330,32 +422,23 @@ task.spawn(function()
 
     task.wait(0.2)
 
-    tween(
+    showInfoRow(
         OwnerRow,
-        0.3,
-        {
-            TextTransparency = 0
-        }
+        0.3
     )
 
     task.wait(0.12)
 
-    tween(
+    showInfoRow(
         LeaderRow,
-        0.3,
-        {
-            TextTransparency = 0
-        }
+        0.3
     )
 
     task.wait(0.12)
 
-    tween(
+    showInfoRow(
         FeatureRow,
-        0.3,
-        {
-            TextTransparency = 0
-        }
+        0.3
     )
 
     task.wait(0.2)
@@ -523,28 +606,19 @@ task.spawn(function()
         }
     )
 
-    tween(
+    hideInfoRow(
         OwnerRow,
-        0.25,
-        {
-            TextTransparency = 1
-        }
+        0.25
     )
 
-    tween(
+    hideInfoRow(
         LeaderRow,
-        0.25,
-        {
-            TextTransparency = 1
-        }
+        0.25
     )
 
-    tween(
+    hideInfoRow(
         FeatureRow,
-        0.25,
-        {
-            TextTransparency = 1
-        }
+        0.25
     )
 
     tween(
